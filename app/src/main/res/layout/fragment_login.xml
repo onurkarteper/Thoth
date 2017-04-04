@@ -1,0 +1,88 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:background="@color/darker_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textColor="@color/dark_text_color"
+            android:layout_marginTop="60dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp"
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fontPath="fonts/Pacifico-Regular.ttf"
+            />
+        <EditText
+            android:textColor="@color/dark_text_color"
+            android:textColorHint="@color/hint_grey"
+            android:textSize="15sp"
+            android:background="@drawable/bg_login_form_edt"
+            android:hint="@string/hint_email"
+            android:id="@+id/edtEmail"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="160dp"
+            android:inputType="textEmailAddress"
+            android:maxLines="1" />
+
+        <EditText
+            android:textColor="@color/dark_text_color"
+            android:textColorHint="@color/hint_grey"
+            android:textSize="15sp"
+            android:background="@drawable/bg_login_form_edt"
+            android:hint="@string/hint_password"
+            android:id="@+id/edtPassword"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtEmail"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_form_little"
+            android:inputType="textPassword"
+            android:maxLines="1" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:textSize="16sp"
+            android:minWidth="180dp"
+            android:textColor="@color/darker_white"
+            android:background="@drawable/bg_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_form"
+            android:text="@string/action_login"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:id="@+id/btnForgotPassword"
+            android:textColor="@color/middle_grey"
+            android:textAllCaps="false"
+            android:text="@string/content_forgot_password"
+            android:layout_alignParentBottom="true"
+            android:textSize="12sp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnRegister"
+            android:textColor="@color/colorAccent"
+            android:textAllCaps="false"
+            android:layout_alignParentEnd="true"
+            android:text="@string/content_sign_up"
+            android:layout_alignParentBottom="true"
+            android:textSize="16sp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</layout>
+
