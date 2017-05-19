@@ -14,5 +14,4 @@
         android:bottom="5dp"/>
 
     <solid android:color="@color/oval_button_color"/>
-
 </shape>

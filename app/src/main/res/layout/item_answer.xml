@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.devfie.thoth.model.Answer" />
+
+        <variable
+            name="callback"
+            type="com.devfie.thoth.callback.AnswerCallback" />
+
+        <import type="java.util.List" />
+
+        <import type="java.lang.String" />
+
+        <import type="android.view.View" />
+
+
+    </data>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:id="@+id/ivUserProfile"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                app:glideAvatar="@{data.owner.avatar}" />
+
+
+            <TextView
+                fontPath="fonts/Lato-Bold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/split1"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/ivUserProfile"
+                android:text="@{data.owner.username}"
+                android:textColor="#263238"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/split1"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/ivUserProfile"
+                android:text="@{data.relativeDate}"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/split1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/ivUserProfile" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
+                <ImageButton
+                    android:onClick="@{(imageButton) -> callback.onAnswerMoreClick(imageButton,data)}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.75"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="6dp"
+                    android:tint="@color/dark_text_color"
+                    app:srcCompat="@drawable/ic_more_horiz_black_24dp" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="@{() -> callback.onAnswerUpVote(data)}"
+                    android:padding="6dp"
+                    android:tint="@{data.myVote == 1 ?  @color/vote_green :@color/middle_grey}"
+                    app:srcCompat="@drawable/ic_arrow_up" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:onClick="@{() -> callback.onAnswerDownVote(data)}"
+                    android:padding="6dp"
+                    android:tint="@{data.myVote == 2 ?  @color/vote_red :@color/middle_grey}"
+                    app:srcCompat="@drawable/ic_arrow_down" />
+
+                <TextView
+                    android:gravity="center"
+                    android:minWidth="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/bg_arrow_like_count"
+                    android:text="@{data.vote.toString()}"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="5dp"
+            android:padding="10dp"
+            android:text='@{data.description}'
+            android:textColor="@color/dark_text_color"
+            android:visibility='@{data.description.empty ? View.GONE : View.VISIBLE}' />
+
+        <ImageView
+            android:id="@+id/ivFeedCenter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            app:glide="@{data.image}"
+            app:photoHeight="@{data}" />
+
+
+    </LinearLayout>
+
+</layout>

@@ -1,6 +1,7 @@
 package com.devfie.thoth.register;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import com.devfie.thoth.base.BaseFragment;
 import com.devfie.thoth.data.Constants;
 import com.devfie.thoth.databinding.FragmentRegisterFirstStepBinding;
 import com.devfie.thoth.databinding.FragmentRegisterSecondStepBinding;
+import com.devfie.thoth.main.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,16 +25,18 @@ public class RegisterSecondStepFragment extends BaseFragment implements Register
     RegisterSecondStepPresenter registerSecondStepPresenter;
     private FragmentRegisterSecondStepBinding binding;
     private String email;
+    private String username;
 
     public RegisterSecondStepFragment() {
         // Required empty public constructor
     }
 
 
-    public static RegisterSecondStepFragment newInstance(String email) {
+    public static RegisterSecondStepFragment newInstance(String email, String username) {
 
         Bundle args = new Bundle();
         args.putString(Constants.KEY_EMAIL, email);
+        args.putString(Constants.KEY_USERNAME, username);
         RegisterSecondStepFragment fragment = new RegisterSecondStepFragment();
         fragment.setArguments(args);
         return fragment;
@@ -42,9 +46,8 @@ public class RegisterSecondStepFragment extends BaseFragment implements Register
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null) {
-            email = args.getString(Constants.KEY_EMAIL);
-        }
+        email = args.getString(Constants.KEY_EMAIL);
+        username = args.getString(Constants.KEY_USERNAME);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class RegisterSecondStepFragment extends BaseFragment implements Register
             @Override
             public void onClick(View view) {
                 if (checkUiValues())
-                    mPresenter.register(email, binding.edtPassword.getText().toString());
+                    mPresenter.register(email, username, binding.edtPassword.getText().toString());
             }
         });
 
@@ -96,6 +99,7 @@ public class RegisterSecondStepFragment extends BaseFragment implements Register
     @Override
     public void onRegisterSuccess() {
         showToast("Register is success thank you!!");
+        startActivity(new Intent(getActivity(), MainActivity.class));
     }
 
     @Override

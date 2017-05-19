@@ -15,6 +15,6 @@ public interface RegisterSecondStepContract {
     }
 
     interface Presenter extends BasePresenter {
-        void register(String email,String password);
+        void register(String email,String username,String password);
     }
 }

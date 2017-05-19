@@ -1,32 +1,26 @@
 package com.devfie.thoth.main;
 
 import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.widget.Toast;
 
+import com.devfie.thoth.BaseApplication;
 import com.devfie.thoth.R;
 import com.devfie.thoth.base.BaseActivity;
-import com.devfie.thoth.homepage.HomepageFragment;
+import com.devfie.thoth.homepage.QuestionListingFragment;
+import com.devfie.thoth.manager.LocalDataManager;
+import com.devfie.thoth.manager.LoginManager;
 import com.devfie.thoth.messages.MessagesFragment;
 import com.devfie.thoth.notifications.NotificationsFragment;
 import com.devfie.thoth.profile.ProfileFragment;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-    HomepageFragment homepageFragment = HomepageFragment.newInstance();
+    QuestionListingFragment homepageFragment = QuestionListingFragment.newInstance();
     NotificationsFragment notificationsFragment = NotificationsFragment.newInstance();
     MessagesFragment messagesFragment = MessagesFragment.newInstance();
     ProfileFragment profileFragment = ProfileFragment.newInstance();
@@ -37,6 +31,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BaseApplication.getInstance().getSocket().emit("user login", LocalDataManager.getInstance().getToken());
+        BaseApplication baseApplication = (BaseApplication) getApplication();
+        baseApplication.getSocket().connect();
+        LoginManager.getInstance().updateUserInfo();
         container = R.id.main_container;
         setToolbar((Toolbar) findViewById(R.id.toolbar));
         bottomBar = (BottomBar) findViewById(R.id.bottom_bar);
@@ -68,7 +66,7 @@ public class MainActivity extends BaseActivity {
                         if (!homepageFragment.isAdded())
                             addFragment(homepageFragment);
                         showFragment(homepageFragment);
-                        changeStack(HomepageFragment.class.getSimpleName());
+                        changeStack(QuestionListingFragment.class.getSimpleName());
                         break;
                     case R.id.tab_notifications:
                         hideFragment(homepageFragment);
@@ -148,7 +146,7 @@ public class MainActivity extends BaseActivity {
 
     private void hideLastFragment() {
         String tag = tabStack.get(tabStack.size() - 1);
-        if (tag.equals(HomepageFragment.class.getSimpleName())) {
+        if (tag.equals(QuestionListingFragment.class.getSimpleName())) {
             hideFragment(homepageFragment);
         } else if (tag.equals(NotificationsFragment.class.getSimpleName())) {
             hideFragment(notificationsFragment);
@@ -161,7 +159,7 @@ public class MainActivity extends BaseActivity {
 
     private void showCurrentFragment() {
         String tag = tabStack.get(tabStack.size() - 1);
-        if (tag.equals(HomepageFragment.class.getSimpleName())) {
+        if (tag.equals(QuestionListingFragment.class.getSimpleName())) {
             showFragment(homepageFragment);
             bottomBar.selectTabAtPosition(0);
         } else if (tag.equals(NotificationsFragment.class.getSimpleName())) {
@@ -175,7 +173,6 @@ public class MainActivity extends BaseActivity {
         } else if (tag.equals(MessagesFragment.class.getSimpleName())) {
             showFragment(messagesFragment);
             bottomBar.selectTabAtPosition(2);
-
         }
     }
 

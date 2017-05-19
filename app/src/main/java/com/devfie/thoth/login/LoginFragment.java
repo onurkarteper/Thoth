@@ -1,6 +1,7 @@
 package com.devfie.thoth.login;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.devfie.thoth.base.BaseActivity;
 import com.devfie.thoth.base.BaseFragment;
 import com.devfie.thoth.databinding.FragmentLoginBinding;
 import com.devfie.thoth.main.MainActivity;
+import com.devfie.thoth.manager.LoginManager;
 import com.devfie.thoth.register.RegisterFirstStepFragment;
 
 /**
@@ -24,6 +26,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     private LoginContract.Presenter mPresenter;
     private FragmentLoginBinding binding;
     LoginPresenter loginPresenter;
+    ProgressDialog progressDialog;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -54,14 +57,17 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         setListeners();
         binding.edtPassword.setText("123456");
         binding.edtEmail.setText("onurkarteper@gmail.com");
+        progressDialog = new ProgressDialog(getContext());
     }
 
     private void setListeners() {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkUiValues())
+                if (checkUiValues()) {
+                    progressDialog.show();
                     mPresenter.login(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString());
+                }
             }
         });
 
@@ -96,11 +102,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void onLoginFailed(String result) {
+        progressDialog.dismiss();
         showToast(result);
     }
 
     @Override
     public void onLoginSuccess() {
+        progressDialog.dismiss();
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
     }
@@ -109,5 +117,19 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
+
+        if (loginManager.isLogin()) {
+            loginManager.updateToken(new LoginManager.TokenUpdateCallback() {
+                @Override
+                public void onTokenUpdate(Boolean success, String token, String message) {
+                    if (success) {
+                        loginManager.updateUserInfo();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                }
+            });
+        }
     }
 }

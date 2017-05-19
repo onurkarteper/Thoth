@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.devfie.thoth.model.Message" />
+
+        <variable
+            name="callback"
+            type="com.devfie.thoth.callback.MessagingCallback" />
+
+        <import type="java.util.List" />
+
+        <import type="java.lang.String" />
+
+        <import type="android.view.View" />
+
+
+    </data>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_margin="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxWidth="250dp"
+        android:background="@drawable/bg_message_to_me"
+        android:clickable="true"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:maxWidth="250dp"
+            android:minWidth="20dp"
+            android:textColor="@color/dark_text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_form_little"
+            android:text="@{data.content}" />
+
+
+    </LinearLayout>
+
+</layout>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.devfie.thoth.model.Question" />
+
+        <variable
+            name="callback"
+            type="com.devfie.thoth.callback.QuestionDetailCallback" />
+
+        <import type="android.view.View"/>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:id="@+id/ivUserProfile"
+                app:glideAvatar="@{data.owner.avatar}"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:onClick="@{() -> callback.onProfileClick()}" />
+
+
+            <TextView
+                fontPath="fonts/Lato-Bold.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/split1"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/ivUserProfile"
+                android:text="@{data.owner.username}"
+                android:textColor="#263238"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/split1"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/ivUserProfile"
+                android:text="@{data.relativeDate}"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/split1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/ivUserProfile" />
+
+            <ImageButton
+                android:id="@+id/ibBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/btnMore"
+                android:alpha="0.9"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{() -> callback.onFollowClick()}"
+                android:paddingBottom="10dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:src="@{data.liked ? @drawable/ic_followed_24dp : @drawable/ic_follow_24}" />
+
+            <ImageButton
+                android:id="@+id/btnMore"
+                app:srcCompat="@drawable/ic_more_horiz_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:alpha="0.75"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:onClick="@{(imageButton) -> callback.onMoreClick(imageButton)}"
+                android:padding="10dp"
+                android:tint="@color/dark_text_color" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ivQuestionPhoto"
+            app:glide="@{data.image}"
+            app:photoHeight="@{data}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="50dp" />
+
+
+        <TextView
+            fontPath="fonts/Lato-Bold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="@{data.title}"
+            android:textColor="@color/colorAccent"
+            android:visibility="@{data.title.empty ? View.GONE : View.VISIBLE}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="0dp"
+            android:text="@{data.description}"
+            android:textColor="@color/dark_text_color"
+            android:visibility="@{data.description.empty ? View.GONE : View.VISIBLE}" />
+
+        <android.support.v7.widget.RecyclerView
+            app:category ="@{data}"
+            android:id="@+id/chipRecycler"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+</layout>

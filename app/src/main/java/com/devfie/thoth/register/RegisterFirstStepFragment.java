@@ -85,7 +85,7 @@ public class RegisterFirstStepFragment extends BaseFragment implements RegisterF
     }
 
     private void showNextStep() {
-      baseFragmentTransAction(RegisterSecondStepFragment.newInstance(binding.edtEmail.getText().toString()));
+      baseFragmentTransAction(RegisterUsernameStepFragment.newInstance(binding.edtEmail.getText().toString()));
     }
 
     @Override

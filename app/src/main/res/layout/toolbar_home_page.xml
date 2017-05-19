@@ -23,6 +23,6 @@
         android:layout_centerVertical="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/margin_form_little"
-        android:tint="@color/darker_white"
+        android:tint="@@color/darker_white"
         app:srcCompat="@drawable/ic_more_vert_24dp" />
 </RelativeLayout>

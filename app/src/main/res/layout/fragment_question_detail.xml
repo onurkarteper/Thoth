@@ -1,0 +1,53 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.devfie.thoth.model.Question" />
+
+        <variable
+            name="callback"
+            type="com.devfie.thoth.callback.QuestionDetailCallback" />
+
+        <import type="java.lang.String" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_background_question_list"
+        tools:context="com.devfie.thoth.questiondetail.QuestionDetailFragment">
+
+        <android.support.v7.widget.RecyclerView
+            android:paddingBottom="40dp"
+            android:clipToPadding="false"
+            android:id="@+id/answerRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_login_button"
+            android:onClick="@{() -> callback.onAnswerQuestionClick()}"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15sp"
+            android:paddingRight="15sp"
+            android:paddingTop="5dp"
+            android:text="@string/answer_question"
+            android:textColor="@color/darker_white" />
+
+    </RelativeLayout>
+
+</layout>
+

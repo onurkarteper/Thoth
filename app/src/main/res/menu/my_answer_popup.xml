@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_delete_answer"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/delete_answer" />
+</menu>

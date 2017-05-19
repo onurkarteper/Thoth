@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.devfie.thoth.R;
+import com.devfie.thoth.basedialog.BaseDialog;
 import com.devfie.thoth.manager.LocalDataManager;
 import com.devfie.thoth.manager.LoginManager;
 
@@ -31,8 +32,10 @@ public class BaseFragment extends Fragment {
     protected void showToast(String msg) {
 
         try {
-          //  Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-            Snackbar.make(getView(),msg,Snackbar.LENGTH_SHORT).show();
+            //  Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+            //  Snackbar.make(getView(),msg,Snackbar.LENGTH_SHORT).show();
+            BaseDialog baseDialog = BaseDialog.newInstance(msg);
+            baseDialog.show(getActivity().getSupportFragmentManager(), baseDialog.getClass().getCanonicalName());
 
         } catch (Exception e) {
 
@@ -42,7 +45,9 @@ public class BaseFragment extends Fragment {
 
     protected void showToast(int msg) {
         try {
-            Snackbar.make(getView(),msg,Snackbar.LENGTH_SHORT).show();
+            BaseDialog baseDialog = BaseDialog.newInstance(getString(msg));
+            baseDialog.show(getActivity().getSupportFragmentManager(), baseDialog.getClass().getCanonicalName());
+            //  Snackbar.make(getView(),msg,Snackbar.LENGTH_SHORT).show();
         } catch (Exception e) {
 
         }

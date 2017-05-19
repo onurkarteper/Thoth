@@ -3,6 +3,8 @@ package com.devfie.thoth.register;
 import android.content.Context;
 
 import com.devfie.thoth.R;
+import com.devfie.thoth.manager.LocalDataManager;
+import com.devfie.thoth.model.response.LoginResponse;
 import com.devfie.thoth.network.NetworkRequests;
 import com.devfie.thoth.network.NetworkResponse;
 
@@ -29,11 +31,16 @@ public class RegisterSecondStepPresenter implements RegisterSecondStepContract.P
 
 
     @Override
-    public void register(String email, String password) {
-        new NetworkRequests(mContext).register(email, password, new NetworkResponse() {
+    public void register(final String email, String username, final String password) {
+        new NetworkRequests(mContext).register(email, username, password, new NetworkResponse() {
             @Override
             public void onSuccess(Object obj) {
+                LoginResponse loginResponse = (LoginResponse) obj;
                 mRegisterView.onRegisterSuccess();
+                LocalDataManager.getInstance().login();
+                LocalDataManager.getInstance().saveLoginData(email, password);
+                LocalDataManager.getInstance().saveToken(loginResponse.getResponse().getToken());
+                LocalDataManager.getInstance().saveId(loginResponse.getResponse().getId());
             }
 
             @Override

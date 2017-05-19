@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Onur Karteper on 4/2/2017.
  */
 
-public class LoginResponse  extends BaseResponse{
+public class LoginResponse extends BaseResponse {
 
     @SerializedName("response")
     @Expose
@@ -22,10 +22,23 @@ public class LoginResponse  extends BaseResponse{
         this.response = response;
     }
 
-    public class Response{
+    public class Response {
         @SerializedName("token")
         @Expose
         private String token;
+
+        @SerializedName("id")
+        @Expose
+        private String id;
+
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getToken() {
             return token;
