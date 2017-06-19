@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by mac-onur on 23.04.2017.
  */
@@ -17,42 +19,45 @@ public class Message extends BaseObservable {
     @Bindable
     private String id;
 
-
-    @SerializedName("type")
+    @SerializedName("message")
     @Expose
     @Bindable
-    private Integer type;
+    private String message;
 
-    @SerializedName("content")
+    @SerializedName("participants")
     @Expose
     @Bindable
-    private String content;
+    private ArrayList<String> participants = new ArrayList<>();
 
-    @SerializedName("to")
-    @Expose
-    @Bindable
-    private String to;
-
-    @SerializedName("from")
+    @SerializedName("owner")
     @Expose
     @Bindable
     private User owner;
 
+    @SerializedName("date")
+    @Expose
+    @Bindable
+    private String date;
 
-    public String getTo() {
-        return to;
+    @SerializedName("showDate")
+    @Expose
+    @Bindable
+    private String showDate;
+
+    public String getDate() {
+        return date;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public String getShowDate() {
+        return showDate;
     }
 
-    public String getContent() {
-        return content;
+    public void setShowDate(String showDate) {
+        this.showDate = showDate;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getId() {
@@ -63,12 +68,20 @@ public class Message extends BaseObservable {
         this.id = id;
     }
 
-    public Integer getType() {
-        return type;
+    public String getMessage() {
+        return message;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public ArrayList<String> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(ArrayList<String> participants) {
+        this.participants = participants;
     }
 
     public User getOwner() {

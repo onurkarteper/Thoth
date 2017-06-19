@@ -128,7 +128,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:drawablePadding="5dp"
-                android:drawableStart="@drawable/ic_question_answer_black_24dp"
+
                 android:padding="10dp"
                 android:text='@{data.answerCountText}'
                 android:textColor="@color/dark_text_color" />

@@ -12,10 +12,13 @@ import com.devfie.thoth.model.response.AskQuestionResponse;
 import com.devfie.thoth.model.response.BaseResponse;
 import com.devfie.thoth.model.response.CategoryResponse;
 import com.devfie.thoth.model.response.LoginResponse;
+import com.devfie.thoth.model.response.MessageResponse;
 import com.devfie.thoth.model.response.QuestionDetailResponse;
 import com.devfie.thoth.model.response.QuestionResponse;
 import com.devfie.thoth.model.response.UserInfoResponse;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -227,7 +230,7 @@ public class NetworkRequests {
     }
 
     @SuppressWarnings("unchecked")
-    public void deleteAnswer(String appToken, String answerId,NetworkResponse response) {
+    public void deleteAnswer(String appToken, String answerId, NetworkResponse response) {
         NetworkManager networkManager = NetworkManager.with(mContext);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Constants.KEY_TOKEN, appToken);
@@ -248,4 +251,20 @@ public class NetworkRequests {
         networkManager.setJsonBody(jsonObject);
         networkManager.makeRequest(response);
     }
+
+    @SuppressWarnings("unchecked")
+    public void getMessasgeList(String token, List<String> users, String lastMessageDate, Integer page, NetworkResponse response) {
+        NetworkManager networkManager = NetworkManager.with(mContext);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(Constants.KEY_TOKEN, token);
+        jsonObject.add(Constants.KEY_PARTICIPANTS, new Gson().toJsonTree(users));
+        jsonObject.addProperty(Constants.KEY_PAGE, page);
+        networkManager.setNetworkMethod(Constants.API_MESSAGE_LIST);
+        networkManager.setTypeToken(MessageResponse.class);
+
+        networkManager.setJsonBody(jsonObject);
+        networkManager.makeRequest(response);
+    }
+
+
 }

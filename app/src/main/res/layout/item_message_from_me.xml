@@ -23,30 +23,42 @@
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_margin="5dp"
-        android:maxWidth="250dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_marginTop="10dp"
         android:clickable="true"
+        android:maxWidth="250dp"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:background="@drawable/bg_message_from_me"
-            android:layout_gravity="end"
-            android:maxWidth="250dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:maxWidth="250dp"
-            android:textColor="@color/darker_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_form_little"
-            android:text="@{data.content}" />
+            android:layout_gravity="end"
+            android:background="@drawable/bg_message_from_me"
+            android:maxWidth="250dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:padding="@dimen/margin_form_little"
+                android:text="@{data.message}"
+                android:textColor="@color/darker_white" />
+
+
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:alpha="0.77"
+            android:paddingRight="4dp"
+            android:paddingTop="2dp"
+            android:text="@{data.showDate}"
+            android:textColor="@color/dark_text_color"
+            android:textSize="10sp" />
     </LinearLayout>
 
 </layout>

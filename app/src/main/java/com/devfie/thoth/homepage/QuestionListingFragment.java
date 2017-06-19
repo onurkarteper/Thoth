@@ -226,7 +226,7 @@ public class QuestionListingFragment extends BaseFragment implements PopupMenu.O
                         presenter.deleteMyQuestion(getContext(), question);
                         break;
                     case R.id.menu_send_message:
-                        Intent message = new Intent(getActivity(),MessagingActivity.class);
+                        Intent message = new Intent(getActivity(), MessagingActivity.class);
                         message.putExtra(Constants.KEY_USER_JSON, question.getOwner().toString());
                         startActivity(message);
                 }
@@ -343,4 +343,18 @@ public class QuestionListingFragment extends BaseFragment implements PopupMenu.O
     }
 
 
+    public void scrollToTop() {
+        binding.questionRecycler.post(new Runnable() {
+            @Override
+            public void run() {
+                binding.questionRecycler.smoothScrollToPosition(0);
+            }
+        });
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) setToolbar();
+    }
 }

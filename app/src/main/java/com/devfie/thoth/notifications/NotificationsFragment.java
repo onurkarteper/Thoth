@@ -9,15 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.devfie.thoth.R;
+import com.devfie.thoth.base.BaseFragment;
+import com.devfie.thoth.databinding.ToolbarNotificationsBinding;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NotificationsFragment extends Fragment {
-
-
+public class NotificationsFragment extends BaseFragment {
 
 
     public NotificationsFragment() {
@@ -25,14 +25,14 @@ public class NotificationsFragment extends Fragment {
     }
 
     public static NotificationsFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         NotificationsFragment fragment = new NotificationsFragment();
         fragment.setArguments(args);
         return fragment;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,5 +58,15 @@ public class NotificationsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            setToolbar();
+    }
 
+    private void setToolbar() {
+        ToolbarNotificationsBinding toolbarNotificationsBinding = ToolbarNotificationsBinding.bind(initToolbar(R.layout.toolbar_notifications));
+
+    }
 }

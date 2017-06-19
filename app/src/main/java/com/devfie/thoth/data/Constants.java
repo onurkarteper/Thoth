@@ -14,6 +14,7 @@ public class Constants {
     public static final String API_CHECK_EMAIL = "register/checkEmail/";
     public static final String API_CHECK_USERNAME = "register/checkUsername/";
     public static final String API_FOLLOW_QUESTION = "questions/follow/";
+    public static final String API_MESSAGE_LIST = "messages/list/";
 
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
@@ -53,4 +54,6 @@ public class Constants {
     public static final String CHAT_SERVER_URL = "http://192.168.0.29:8080/";
 
     public static final java.lang.String KEY_USER_JSON = "userJson";
+
+    public static final String KEY_PARTICIPANTS = "participants";
 }

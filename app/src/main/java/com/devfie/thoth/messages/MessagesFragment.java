@@ -1,31 +1,25 @@
 package com.devfie.thoth.messages;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.devfie.thoth.BaseApplication;
 import com.devfie.thoth.R;
 import com.devfie.thoth.base.BaseFragment;
-import com.google.gson.Gson;
+import com.devfie.thoth.messaging.MessagesContract;
+import com.devfie.thoth.model.Message;
 
 
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
+import java.util.List;
 
-import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
@@ -33,6 +27,7 @@ import io.socket.emitter.Emitter;
  * A simple {@link Fragment} subclass.
  */
 public class MessagesFragment extends BaseFragment {
+
 
 
     public MessagesFragment() {
@@ -66,11 +61,11 @@ public class MessagesFragment extends BaseFragment {
         mSocket.on("new message", onNewMessage);
         mSocket.on("user joined", onUserJoined);
         mSocket.on("user left", onUserLeft);
-        mSocket.on("login failed",onLoginFailed);
-   //     mSocket.on("typing", onTyping);
- //       mSocket.on("stop typing", onStopTyping);
+        mSocket.on("login failed", onLoginFailed);
+        //     mSocket.on("typing", onTyping);
+        //       mSocket.on("stop typing", onStopTyping);
         mSocket.emit("user login", localDataManager.getToken());
-        
+
 
     }
 
@@ -149,7 +144,7 @@ public class MessagesFragment extends BaseFragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                   showToast("Conneection Error");
+                    showToast("Conneection Error");
                 }
             });
         }
@@ -235,7 +230,7 @@ public class MessagesFragment extends BaseFragment {
                     String username;
                     try {
                         username = data.getString("username");
-                        showToast("User Typing : " + username );
+                        showToast("User Typing : " + username);
 
                     } catch (JSONException e) {
                         return;
@@ -256,7 +251,7 @@ public class MessagesFragment extends BaseFragment {
                     String username;
                     try {
                         username = data.getString("username");
-                        showToast("Stop Type : " + username );
+                        showToast("Stop Type : " + username);
 
                     } catch (JSONException e) {
 
@@ -267,7 +262,6 @@ public class MessagesFragment extends BaseFragment {
             });
         }
     };
-
 
 
 }

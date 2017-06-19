@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.devfie.thoth.R;
+import com.devfie.thoth.base.BaseActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -17,16 +18,14 @@ import org.greenrobot.eventbus.EventBus;
 public class ProfileFragment extends Fragment {
 
 
-
-
     public ProfileFragment() {
         // Required empty public constructor
     }
 
     public static ProfileFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -45,5 +44,13 @@ public class ProfileFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            ((BaseActivity) getActivity()).getSupportActionBar().hide();
+        } else {
+            ((BaseActivity) getActivity()).getSupportActionBar().show();
+        }
+    }
 }

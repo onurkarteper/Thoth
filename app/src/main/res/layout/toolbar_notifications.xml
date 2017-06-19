@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:visibility="invisible"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/btnUpload"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/action_send_question"
+            android:textAllCaps="false"
+            android:textColor="@color/darker_white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_centerInParent="true"
+            fontPath="fonts/Lato-Bold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/btnBack"
+            android:layout_toStartOf="@id/btnNext"
+            android:paddingLeft="8dp"
+            android:text="@string/title_notifications"
+            android:textColor="@color/darker_white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</layout>

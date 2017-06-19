@@ -72,5 +72,8 @@
     <string name="error_delete_answer">Üzgünüz cevabınız şuanda silinemedi. Lütfen terkar deneyiniz.</string>
     <string name="error_answer_report">Üzgünüz şuanda şikayetiniz iletilemedi. Lütfen tekrar deneyiniz.</string>
     <string name="content_write_message">Mesaj yazın</string>
+    <string name="disconnect">Disconnected!</string>
+    <string name="error_connect">Error Connect</string>
+    <string name="title_notifications">Bildirimler</string>
 
 </resources>

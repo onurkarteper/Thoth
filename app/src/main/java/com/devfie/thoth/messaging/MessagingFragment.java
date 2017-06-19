@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.devfie.thoth.BaseApplication;
 import com.devfie.thoth.R;
@@ -17,6 +18,7 @@ import com.devfie.thoth.base.BaseFragment;
 import com.devfie.thoth.callback.MessagingCallback;
 import com.devfie.thoth.data.Constants;
 import com.devfie.thoth.databinding.FragmentMessagingBinding;
+import com.devfie.thoth.databinding.ToolbarMessagingBinding;
 import com.devfie.thoth.model.Message;
 import com.devfie.thoth.model.User;
 import com.google.gson.Gson;
@@ -33,15 +35,19 @@ import io.socket.emitter.Emitter;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessagingFragment extends BaseFragment implements MessagingCallback {
+public class MessagingFragment extends BaseFragment implements MessagingCallback, MessagesContract.View {
 
     private static final String TAG = MessagingFragment.class.getSimpleName();
+    private MessagesContract.Presenter presenter;
+    private Integer page = 0;
+
 
     public static MessagingFragment newInstance(String userJson) {
         Bundle args = new Bundle();
         args.putString(Constants.KEY_USER_JSON, userJson);
         MessagingFragment fragment = new MessagingFragment();
         fragment.setArguments(args);
+        MessagesPresenter pre = new MessagesPresenter(fragment);
         return fragment;
     }
 
@@ -54,6 +60,7 @@ public class MessagingFragment extends BaseFragment implements MessagingCallback
     public MessagingFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,16 +91,30 @@ public class MessagingFragment extends BaseFragment implements MessagingCallback
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentMessagingBinding.bind(view);
         BaseApplication app = (BaseApplication) getActivity().getApplication();
+        setToolbar();
         mSocket = app.getSocket();
+        if (!mSocket.connected()) mSocket.connect();
+
+
         mSocket.on("new message", onNewMessage);
+
         setAdapter();
         setListeners();
+        List<String> str = new ArrayList<>();
+        str.add(user.getId());
+        presenter.loadMessages(getContext(), str, page);
+    }
+
+    private void setToolbar() {
+        ToolbarMessagingBinding toolbarMessagingBinding = ToolbarMessagingBinding.bind(initToolbar(R.layout.toolbar_messaging));
+        toolbarMessagingBinding.btnBack.setOnClickListener(onBackListener);
+        toolbarMessagingBinding.tvUsername.setText(user.getUsername());
     }
 
     private void setAdapter() {
         adapter = new MessagingAdapter(this, messages.toArray());
         LinearLayoutManager manager = (LinearLayoutManager) binding.recyclerMessaging.getLayoutManager();
-        manager.setStackFromEnd(true);
+        manager.setReverseLayout(true);
         binding.recyclerMessaging.setAdapter(adapter);
     }
 
@@ -102,40 +123,49 @@ public class MessagingFragment extends BaseFragment implements MessagingCallback
             @Override
             public void onClick(View v) {
                 if (binding.edtMsgContent.getText().toString().isEmpty()) return;
-                try {
-                    sendMessage(binding.edtMsgContent.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                sendMessage(binding.edtMsgContent.getText().toString());
             }
         });
     }
 
-    private void sendMessage(String content) throws JSONException {
-        Message newMessage = new Message();
-        newMessage.setContent(content);
-        newMessage.setTo(user.getId());
-        newMessage.setOwner(localDataManager.getUserInfo());
-        JSONObject obj = new JSONObject(new Gson().toJson(newMessage));
-        mSocket.emit("new message", obj);
-        adapter.addItem(newMessage);
-        binding.edtMsgContent.getText().clear();
-        binding.recyclerMessaging.scrollToPosition(adapter.getItemSize()-1);
+    private void sendMessage(final String content) {
+
+        binding.recyclerMessaging.post(new Runnable() {
+            @Override
+            public void run() {
+                Message newMessage = new Message();
+                newMessage.setMessage(content);
+                newMessage.getParticipants().add(user.getId());
+                newMessage.setOwner(localDataManager.getUserInfo());
+                JSONObject obj = null;
+                try {
+                    obj = new JSONObject(new Gson().toJson(newMessage));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mSocket.emit("new message", obj);
+                adapter.addItem(0, newMessage);
+                binding.edtMsgContent.getText().clear();
+
+                binding.recyclerMessaging.scrollToPosition(0);
+            }
+        });
+
 
     }
 
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
+            binding.recyclerMessaging.post(new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
                     Message message;
                     try {
                         message = new Gson().fromJson(data.getString("message"), Message.class);
-                        adapter.addItem(message);
-                        binding.recyclerMessaging.scrollToPosition(adapter.getItemSize()-1);
+                        adapter.addItem(0, message);
+                        binding.recyclerMessaging.scrollToPosition(0);
                     } catch (Exception e) {
 
                         return;
@@ -146,4 +176,25 @@ public class MessagingFragment extends BaseFragment implements MessagingCallback
             });
         }
     };
+
+    @Override
+    public void setPresenter(MessagesContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void onMessagesLoad(List<Message> messages) {
+        adapter.addItems(messages.toArray());
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private View.OnClickListener onBackListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getActivity().onBackPressed();
+        }
+    };
+
+
 }
